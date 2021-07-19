@@ -1,0 +1,7 @@
+site_name: My Docs
+site_url: https://example.com/
+nav:
+    - Home: index.md
+    - UCCHIP IDE: UCCHIP IDE 安装.md
+    - About: about.md
+theme: readthedocs
