@@ -1,7 +1,21 @@
 site_name: My Docs
 site_url: https://example.com/
 nav:
-    - Home: index.md
-    - UCCHIP IDE: UCCHIP IDE 安装.md
-    - About: about.md
+    - '关于御芯微': 'index.md'
+    - 'UCCHIP集成开发环境':
+        - 'UCCHIP IDE 安装': 'UCCHIP IDE 安装.md'
+        - '编译下载'：'build_and_down.md'
+        - '调试' 'debug.md'
+    - '芯片':
+        - 'UC8088': 'ucchip_8088.md'
+        - 'UC8088': 'ucchip_8288.md'
+    - '模组':
+        - 'UCM800': 'ucchip_ucm800.md'
+    - '硬件':
+        - 'UCM800': 'ucchip_schematic.md'
+    - '外设': 'ucchip_imp.md'
+    - 'GPRS': 'ucchip_gprs.md'
+    - 'GPS': 'ucchip_gnss.md'
+    - '北斗': 'ucchip_bd.md'
+    - 'About': 'about.md'
 theme: readthedocs
