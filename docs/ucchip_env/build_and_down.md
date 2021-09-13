@@ -8,7 +8,7 @@ uc8288例程代码：[uc8288 demo]()
 
 ### 编译例程
 
-打开UCCHIP IDE，点击Open Workspace：
+打开UCchip IDE，点击Open Workspace：
 
 ![](png/open_workspace.png)
 
