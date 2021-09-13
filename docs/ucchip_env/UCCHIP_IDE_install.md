@@ -6,7 +6,7 @@ UCchip IDE当前提供Windows 64位操作系统安装版本，如果对其他系
 
 ###### Windows 
 
-获取UCchip IDE安装包：[UCCHIP IDE Windows](https://uc8088.com/t/topic/49)
+获取UCchip IDE安装包：[UCchip IDE Windows](https://uc8088.com/t/topic/49)
 
 安装包包含了Windows 开发环境所需的IDE，RISC-V GCC编译器，UC-DAP5仿真驱动。
 
