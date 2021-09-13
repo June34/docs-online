@@ -1,14 +1,14 @@
 # UCCHIP IDE 安装
 
-UCCHIP IDE当前提供Windows 64位操作系统安装版本，如果对其他系统有诉求，请联系我们。
+UCchip IDE当前提供Windows 64位操作系统安装版本，如果对其他系统有诉求，请联系我们。
 
 ### 获取安装文件
 
 ###### Windows 
 
-获取UCCHIP IDE安装包：[UCCHIP IDE Windows](https://uc8088.com/t/topic/49)
+获取UCchip IDE安装包：[UCCHIP IDE Windows](https://uc8088.com/t/topic/49)
 
-安装包包含了Windows 开发环境所需的IDE，RISCV GCC编译器，UC-DAP5仿真驱动。
+安装包包含了Windows 开发环境所需的IDE，RISC-V GCC编译器，UC-DAP5仿真驱动。
 
 ### 安装指导
 
@@ -40,7 +40,7 @@ UCCHIP IDE当前提供Windows 64位操作系统安装版本，如果对其他系
 
 ### 仿真器设备驱动
 
-UCCHIP系列芯片采用UC-DAP5仿真器，需要安装串口驱动和调试口驱动。
+UCchip系列芯片采用UC-DAP5仿真器，需要安装串口驱动和调试口驱动。
 
 ###### Windows
 
