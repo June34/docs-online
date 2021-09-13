@@ -1,4 +1,4 @@
-site_name: My Docs
+site_name: UCchip Docs
 site_url: https://example.com/
 pages:
     - 关于御芯微: 'index.md'
