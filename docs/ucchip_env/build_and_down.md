@@ -58,3 +58,6 @@ UC8288例程代码：[UC8288 demo]()
 
 ![](png/uart_print.png)
 
+分辨率测试
+
+![](png/work_test.png)
