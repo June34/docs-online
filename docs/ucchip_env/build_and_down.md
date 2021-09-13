@@ -2,9 +2,9 @@
 
 ### 获取例程代码
 
-uc8088例程代码：[uc8088 demo](https://uc8088.com/t/topic/28)
+UC8088例程代码：[UC8088 demo](https://uc8088.com/t/topic/28)
 
-uc8288例程代码：[uc8288 demo]()
+UC8288例程代码：[UC8288 demo]()
 
 ### 编译例程
 
