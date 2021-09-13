@@ -1,21 +1,38 @@
 site_name: My Docs
 site_url: https://example.com/
-nav:
-    - '关于御芯微': 'index.md'
-    - 'UCCHIP集成开发环境':
-        - 'UCCHIP IDE 安装': 'UCCHIP IDE 安装.md'
-        - '编译下载'：'build_and_down.md'
-        - '调试' 'debug.md'
-    - '芯片':
-        - 'UC8088': 'ucchip_8088.md'
-        - 'UC8088': 'ucchip_8288.md'
-    - '模组':
-        - 'UCM800': 'ucchip_ucm800.md'
-    - '硬件':
-        - 'UCM800': 'ucchip_schematic.md'
-    - '外设': 'ucchip_imp.md'
-    - 'GPRS': 'ucchip_gprs.md'
-    - 'GPS': 'ucchip_gnss.md'
-    - '北斗': 'ucchip_bd.md'
-    - 'About': 'about.md'
+pages:
+    - 关于御芯微: 'index.md'
+    - UCCHIP集成开发环境:
+        - 'UCCHIP IDE 安装': ucchip_env/UCCHIP_IDE_install.md
+        - '编译下载': ucchip_env/build_and_down.md
+        - '调试': ucchip_env/debug.md
+    - MCU:
+        - '概览':   MCU/introduction_mcu.md
+        - 'UC8088': MCU/mcu_uc8088.md
+        - 'UC8288': MCU/mcu_uc8288.md
+        - 'UC8888': MCU/mcu_uc8888.md
+    - 蜂窝:
+        - '概览':   3gpp/introduction_3gpp.md
+        - 'UC8088': 3gpp/3gpp_uc8088.md
+        - 'UC8066': 3gpp/3gpp_uc8066.md
+        - 'UCM800': 3gpp/3gpp_ucm800.md
+        - 'UCM868': 3gpp/3gpp_ucm868.md
+    - LPWAN:
+        - '概览':   wiota/introduction_wiota.md
+        - 'UC8288': wiota/wiota_uc8288.md
+        - 'UC8666': wiota/wiota_uc8666.md
+    - GNSS:
+        - '概览':   gnss/introduction_gnss.md
+        - 'UC8088': gnss/gnss_uc8088.md
+        - 'UC8888': gnss/gnss_uc8888.md
+        - 'UCM800': gnss/gnss_ucm800.md
+        - 'UCM868': gnss/gnss_ucm868.md
+    - RFID:
+        - '概览':   rfid/introduction_rfid.md
+        - 'UC8689': rfid/rfid_uc8689.md
+        - 'UCM868': rfid/rfid_ucm868.md
+    - Connectivety:
+        - '概览':   Connectivety/introduction_connectivety.md
+        - 'UC8266': Connectivety/connectivety_uc8266.md
+    - About: 'about.md'
 theme: readthedocs
