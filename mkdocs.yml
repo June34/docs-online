@@ -11,6 +11,9 @@ pages:
         - 'UC8088': MCU/mcu_uc8088.md
         - 'UC8288': MCU/mcu_uc8288.md
         - 'UC8888': MCU/mcu_uc8888.md
+        - '外设':
+          - 'pwm': MCU/imperio/pwm/pwm.md
+          - 'watchdog': MCU/imperio/watchdog/watchdog.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
@@ -35,4 +38,5 @@ pages:
         - '概览':   Connectivety/introduction_connectivety.md
         - 'UC8266': Connectivety/connectivety_uc8266.md
     - About: 'about.md'
-theme: readthedocs
+theme:
+  name: material
