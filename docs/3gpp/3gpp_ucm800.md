@@ -12,7 +12,7 @@ UCM800是基于UC8088设计开发的蜂窝通信与卫星定位模组，功能�
 
 #### 电源
 
-UCM800模组供电范围是3.3~4.2V，可用锂电池直接供电，推荐在VBAT引脚处添加10uF和100nF一大一小2个电容，保证电源纹波在50mV以下，同时保证在瞬态电流为2A时，VBAT电压不会跌到3.3V以下。
+UCM800模组供电范围是3.3~4.2V，可用锂电池直接供电。推荐在VBAT引脚处添加10uF和100nF一大一小2个电容，保证电源纹波在50mV以下，同时保证在瞬态电流为2A时，VBAT电压不会跌到3.3V以下。
 
 #### 复位
 
@@ -30,7 +30,7 @@ UCM800通过串口接收AT指令、返回状态，串口IO电平为3.3V，注意
 
 固件更新接口为22/23/25/26引脚，引出后与烧写器对应口连接。
 
-固件烧写软件：[UCDownloader_V0.01](https://uc8088.com/t/topic/62)
+固件烧写器：[UCDownloader_V0.01](https://uc8088.com/t/topic/62)
 
 固件获取：[UCM800\_AT\_V0.0.1](https://uc8088.com/t/topic/63)
 
@@ -76,50 +76,56 @@ OneNET平台端设置完成后，通过串口发送AT命令对UCM800进行配置
 
 ![](png/http_xcom_send.png)
 
-**at+cfun=1** //设置全功能，设备上电
-
-OK //返回ERROR，请检查SIM卡是否正常
-
-**at+cgatt=1** //GPRS注册
-
+```C
+//设置全功能，设备上电，返回ERROR，请检查SIM卡是否正常
+at+cfun=1 
 OK
 
-**at+cgact=1,1** //PDP激活
-
+//GPRS注册
+at+cgatt=1 
 OK
 
-**at+httppara=url,http://api.heclouds.com/devices/782583454/datapoints** //设备ID：782583454，根据客户的API地址更改
-
+//PDP激活
+at+cgact=1,1 
 OK
 
-**at+httppara=user,api-key:izWfKYlVuNhqXaRg8Moa6Y1khVE=**  //设置APIKey，根据客户APIKey更改
-
+//设备ID：782583454，根据客户的API地址更改
+at+httppara=url,http://api.heclouds.com/devices/782583454/datapoints 
 OK
 
-**at+httppara=user,Content-Type:application/json** //根据OneNET平台要求设置 见[OneNET开发文档](https://open.iot.10086.cn/doc/multiprotocol/book/develop/http/api/15.%E4%B8%8A%E4%BC%A0%E6%95%B0%E6%8D%AE%E7%82%B9.html)
-
+//设置APIKey，根据客户APIKey更改
+at+httppara=user,api-key:izWfKYlVuNhqXaRg8Moa6Y1khVE  
 OK
 
-**at+httppara=body,{"datastreams":[{"id":"temp","datapoints":[{"value":11}]}]}**  //设置上传至OneNET平台数据
-
+//根据OneNET平台要求设置
+at+httppara=user,Content-Type:application/json 
 OK
 
-**at+httpinit** //http配置完成后初始化
-
+//设置上传OneNET平台的数据
+at+httppara=body,{"datastreams":[{"id":"temp","datapoints":[{"value":11}]}]}  
 OK
 
-**at+httpaction=3** //http开始上传
+//http配置完成后初始化
+at+httpinit 
+OK
 
+//http开始上传
+at+httpaction=3 
 +HTTPACTION:0,26
-
 OK
 
-**at+httpterm** //上传结束后关闭http
-
+//上传结束后关闭http
+at+httpterm 
 OK
 
-更多AT指令，详见[AT用户手册](https://uc8088.com/t/topic/63)。
+```
+
 
 上传完毕后，可在OneNET平台查看数据：
 
 ![](png/onenet_view_data.png)
+
+
+更多AT指令，详见[AT用户手册](https://uc8088.com/t/topic/63)。
+
+更多OneNET指令，详见[OneNET开发文档](https://open.iot.10086.cn/doc/multiprotocol/book/develop/http/api/15.%E4%B8%8A%E4%BC%A0%E6%95%B0%E6%8D%AE%E7%82%B9.html)。
