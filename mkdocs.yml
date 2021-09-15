@@ -14,6 +14,8 @@ pages:
         - '外设':
           - 'pwm': MCU/imperio/pwm/pwm.md
           - 'watchdog': MCU/imperio/watchdog/watchdog.md
+          - 'i2c': MCU/imperio/i2c/IIC.md
+          - 'gpio': MCU/imperio/gpio/GPIO.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
