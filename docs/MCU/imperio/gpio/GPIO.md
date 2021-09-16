@@ -10,185 +10,227 @@ GPIO控制器可以驱动或者获取信号/数据。通过相应的寄存器，
 ## 操作GPIO ##
 操作GPIO由SDK提供接口，相关接口如下：  
 
-set
-
 |函数|描述|
 |:---:|:---:|
-|gpio_init()|初始化GPIO|
-|gpio_set_pin_mux()|设置IO复用功能|
-|gpio_get_pin_mux()|获取IO复用功能|
-|gpio_set_pin_pupd()|设置IO上下拉|
-|gpio_get_pin_pupd()|获取IO的上下拉|
-|gpio_set_pin_direction()|设置IO状态|
-|gpio_get_pin_direction()|获取IO的状态|
-|gpio_set_pin_value()|设置IO的输出状态|
-|gpio_get_pin_value()|获取IO的输入状态|
-|gpio_set_irq_en()|使能IO中断|
-|gpio_set_irq_type()|设置IO中断触发方式|
-|gpio_get_irq_status()|获取中断状态|
-|gpio_int_enable()|使能GPIO中断|
-|gpio_int_clear_pending()|清中断标志位|
-|gpio_int_disable()|失能GPIO中断|
+|void gpio_init(GPIO_TypeDef *GPIO,GPIO_CFG_TypeDef *GPIO_CFG,GPIO_CFG_Type *gpio_cfg)|初始化GPIO|
+|void gpio_set_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_FUNCTION func)|设置IO复用功能|
+|GPIO_FUNCTION gpio_get_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)|获取IO复用功能|
+|void gpio_set_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_PUPD pupd)|设置IO上下拉|
+|GPIO_PUPD gpio_get_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)|获取IO的上下拉|
+|void gpio_set_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_DIRECTION dir)|设置IO状态|
+|GPIO_DIRECTION gpio_get_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin)|获取IO的状态|
+|void gpio_set_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_VALUE value)|设置IO的输出状态|
+|GPIO_VALUE gpio_get_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin)|获取IO的输入状态|
+|void gpio_set_irq_type(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_IRQ_TYPE type)|使能IO中断|
+|void gpio_set_irq_en(GPIO_TypeDef *GPIO, GPIO_PIN pin, uint8_t enable)|设置IO中断触发方式|
+|uint32_t gpio_get_irq_status(GPIO_TypeDef *GPIO)|获取中断状态|
+|void gpio_int_enable(void)|使能GPIO中断|
+|void gpio_int_clear_pending(void)|清中断标志位|
+|void gpio_int_disable(void)|失能GPIO中断|
 
 ### 初始化GPIO ###
 使用IO设备前，需对使用的IO口就行初始化操作，初始化接口函数原型如下：  
-`void gpio_init(GPIO_TypeDef *GPIO,GPIO_CFG_TypeDef *GPIO_CFG,GPIO_CFG_Type *gpio_cfg)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO操作句柄|
-|GPIO_CFG|设备信息|
-|gpio_cfg|配置信息|
-|**输出参数**|-|
-|GPIO|IO操作句柄|
-|GPIO_CFG|设备信息|
-|**返回值**|-|
-|无|无|
+```C
+void gpio_init(GPIO_TypeDef *GPIO,GPIO_CFG_TypeDef *GPIO_CFG,GPIO_CFG_Type *gpio_cfg)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_CFG(GPIO_CFG));
+    CHECK_PARAM(PARAM_GPIO_PIN(gpio_cfg->pin));
+    CHECK_PARAM(PARAM_GPIO_FUNC(gpio_cfg->func));
+    CHECK_PARAM(PARAM_GPIO_DIRECTION(gpio_cfg->dir));
+    CHECK_PARAM(PARAM_GPIO_PUPD(gpio_cfg->pupd));
+    
+    //set pin mux
+    if(gpio_cfg->func == GPIO_FUNC_1)
+        GPIO_CFG->PADMUX |= (1 << gpio_cfg->pin);
+    else
+        GPIO_CFG->PADMUX &= ~(1 << gpio_cfg->pin);
+    
+    //set pin direction
+    if(gpio_cfg->dir == GPIO_DIR_OUT)
+        GPIO->PADDIR &= ~(1 << gpio_cfg->pin);
+    else
+        GPIO->PADDIR |= (1 << gpio_cfg->pin);
+    
+    //set pin pupd
+    if(gpio_cfg->pupd == GPIO_PUPD_UP)
+        GPIO_CFG->PADCFG |= (1 << gpio_cfg->pin);
+    else
+        GPIO_CFG->PADCFG &= ~(1 << gpio_cfg->pin);
+}
+```
 
 ### 设置GPIO复用功能 ###
 该接口用于设置IO除主功能外的其他功能，需在初始化完成之后调用，若只使用IO的主功能则不需调用此函数，接口原型如下：    
-`void gpio_set_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_FUNCTION func)；`  
+```C
+void gpio_set_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_FUNCTION func)
+{
+    CHECK_PARAM(PARAM_GPIO_CFG(GPIO_CFG));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    CHECK_PARAM(PARAM_GPIO_FUNC(func));
 
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO_CFG|设备信息|
-|pin|IO操作句柄|
-|func|复用功能|
-|**输出参数**|-|
-|GPIO_CFG|设备信息|
-|**返回值**|-|
-|无|无|
+    //set pin mux
+    if(func == GPIO_FUNC_1)
+        GPIO_CFG->PADMUX |= (1 << pin);
+    else
+        GPIO_CFG->PADMUX &= ~(1 << pin);
+}
+```
 
 ### 获取GPIO复用功能 ###
 该接口需在初始化完成之后调用，用于获取IO的复用功能，也可不调用，接口原型如下：    
-`GPIO_FUNCTION gpio_get_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO_CFG|设备信息|
-|pin|IO操作句柄|
-|**输出参数**|-|
-|GPIO_CFG|设备信息|
-|**返回值**|-|
-|引脚功能|无|
+```C
+GPIO_FUNCTION gpio_get_pin_mux(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)
+{
+    CHECK_PARAM(PARAM_GPIO_CFG(GPIO_CFG));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    return ((GPIO_CFG->PADMUX >> pin) & 0x01);
+}
+```
 
 ### 设置GPIO上下拉 ###
 IO口的上下拉需根据外围电路的需求进行配置，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_set_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_PUPD pupd)；`  
+```C
+void gpio_set_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin, GPIO_PUPD pupd)
+{
+    CHECK_PARAM(PARAM_GPIO_CFG(GPIO_CFG));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    CHECK_PARAM(PARAM_GPIO_PUPD(pupd));
 
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO_CFG|设备信息|
-|pin|IO操作句柄|
-|pupd|指定的上下拉|
-|**输出参数**|-|
-|GPIO_CFG|设备信息|
-|**返回值**|-|
-|无|无|
+    //set pin pupd
+    if(pupd == GPIO_PUPD_UP)
+        GPIO_CFG->PADCFG |= (1 << pin);
+    else
+        GPIO_CFG->PADCFG &= ~(1 << pin);
+}
+```
 
 ### 获取GPIO上下拉配置 ###
 IO口的上下拉需根据外围电路的需求进行配置，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`GPIO_PUPD gpio_get_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO_CFG|设备信息|
-|pin|IO操作句柄|
-|**输出参数**|-|
-|GPIO_CFG|设备信息|
-|**返回值**|-|
-|IO口上下拉配置|无|
+```C
+GPIO_PUPD gpio_get_pin_pupd(GPIO_CFG_TypeDef *GPIO_CFG, GPIO_PIN pin)
+{
+    CHECK_PARAM(PARAM_GPIO_CFG(GPIO_CFG));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    return ((GPIO_CFG->PADCFG >> pin) & 0x01);
+}
+```
 
 ### 设置GPIO输入输出 ###
 使用GPIO应对其输入输出进行设置，若不设置，则默认输出，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_set_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_DIRECTION dir)；`  
+```C
+void gpio_set_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_DIRECTION dir)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    CHECK_PARAM(PARAM_GPIO_DERECTION(dir));
 
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|pin|IO操作句柄|
-|dir|IO输入输出方向|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|无|无|
+    if(dir == GPIO_DIR_OUT)
+        GPIO->PADDIR &= ~(1 << pin);
+    else
+        GPIO->PADDIR |= 1 << pin;
+}
+```
 
 ### 获取GPIO输入输出状态 ###
 获取GPIO输入输出配置，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`GPIO_DIRECTION gpio_get_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|pin|IO操作句柄|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|IO输入输出状态|无|
+```C
+GPIO_DIRECTION gpio_get_pin_direction(GPIO_TypeDef *GPIO, GPIO_PIN pin)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    
+    GPIO_DIRECTION dir = (GPIO->PADDIR >> pin) & 0x01;
+    return dir;
+}
+```
 
 ### 设置GPIO输出状态 ###
 GPIO可被设置为高低两种状态，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_set_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_VALUE value)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|pin|IO操作句柄|
-|value|输出的高低状态|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|无|无|
+```C
+void gpio_set_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin, GPIO_VALUE value)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    
+    if(value == GPIO_VALUE_LOW)
+        GPIO->PADOUT &= ~(1 << pin);
+    else
+        GPIO->PADOUT |= 1 << pin;
+}
+```
 
 ### 获取GPIO输入状态 ###
 获取GPIO的输入状态，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`GPIO_VALUE gpio_get_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|pin|IO操作句柄|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|IO状态|无|
+```C
+GPIO_VALUE gpio_get_pin_value(GPIO_TypeDef *GPIO, GPIO_PIN pin)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    
+	GPIO_VALUE value = 0;
+	GPIO_DIRECTION dir = gpio_get_pin_direction(GPIO, pin);
+	
+	if(dir == GPIO_DIR_IN)
+		value = (GPIO->PADIN >> pin) & 0x01;
+	else
+		value = (GPIO->PADOUT >> pin) & 0x01;
+		
+    return value;
+}
+```
 
 ### 使能GPIO中断 ###
 使能GPIO中断，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_set_irq_en(GPIO_TypeDef *GPIO, GPIO_PIN pin, uint8_t enable)；`  
+```C
+void gpio_set_irq_en(GPIO_TypeDef *GPIO, GPIO_PIN pin, uint8_t enable)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    CHECK_PARAM(PARAM_GPIO_PIN(pin));
+    
+    if(enable == 0)
+        GPIO->INTEN &= ~(1 << pin);
+    else
+        GPIO->INTEN |= 1 << pin;
+}
+```
 
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|pin|IO操作句柄|
-|enable|使能指示|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|无|无|
-
-使能IO中断还可用一下接口：  
-`void gpio_int_enable(void)；` 
+使能IO中断还可用以下接口：  
+```C
+void gpio_int_enable(void)
+{
+	IER |= (1 << 25);//enable gpio interrupt
+}
+```
 
 ### 获取GPIO中断状态 ###
 获取GPIO中断状态，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`uint32_t gpio_get_irq_status(GPIO_TypeDef *GPIO)；`  
-
-|**输入参数**|**描述**|
-|:---:|:---:|
-|GPIO|IO句柄|
-|**输出参数**|-|
-|GPIO|IO句柄|
-|**返回值**|-|
-|中断状态|无|
+```C
+uint32_t gpio_get_irq_status(GPIO_TypeDef *GPIO)
+{
+    CHECK_PARAM(PARAM_GPIO(GPIO));
+    
+    return GPIO->INTSTATUS;
+}
+```
 
 ### 清GPIO中断标志 ###
 清GPIO中断标志位，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_int_clear_pending(void)；`  
+```C
+void gpio_int_clear_pending(void)
+{
+	ICP |= 1<<25;//clear gpio interrupt pending
+}
+```
 
-### 使能GPIO中断 ###
+### 失能GPIO中断 ###
 清GPIO中断标志位，调用该接口应在被操作的IO口初始化之后，接口原型如下：  
-`void gpio_int_disable(void)；`  
+```C
+void gpio_int_disable(void)
+{
+	IER &= ~(1 << 25);//disable gpio interrupt
+}
+```
 
 ## 操作GPIO实例 ##
 GPIO的使用方法可参考如下示例代码，操作步骤：  
