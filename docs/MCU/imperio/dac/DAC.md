@@ -6,136 +6,145 @@ UC8088提供两个几乎一模一样的DAC，区别在于音频DAC（AUDIO_DAC�
 
 |函数|描述|
 |:---:|:---:|
-|void dac_power_set(ADDA_TypeDef *ADDA)|初始化DAC器件|
-|void dac_fifo_clear(ADDA_TypeDef *ADDA)|清空DAC缓存|
-|void dac_watermark_set(ADDA_TypeDef *ADDA, uint8_t water_mark)|设置DAC水线|
-|bool is_dac_fifo_over_watermark(ADDA_TypeDef *ADDA)|查看dac缓存是否已达到采样水线|
-|bool is_dac_fifo_full(ADDA_TypeDef *ADDA)|查看dac缓存是否已满|
-|void dac_write(ADDA_TypeDef *ADDA, uint16_t wdata)|dac写数据|
-|void dac_clkdiv_set(ADDA_TypeDef *ADDA, uint16_t clk_div)|设置dac时钟分频|
-|void dac_int_enable(ADDA_TypeDef *ADDA)|dac中断使能|
-|void dac_int_disable(ADDA_TypeDef *ADDA)|dac中断失能|
-|void dac_int_clear_pending(void)|清dac中断标志位|
+|dac_power_set()|初始化DAC器件|
+|dac_fifo_clear()|清空DAC缓存|
+|void dac_watermark_set()|设置DAC水线|
+|is_dac_fifo_over_watermark()|查看dac缓存是否已达到采样水线|
+|is_dac_fifo_full()|查看dac缓存是否已满|
+|dac_write()|dac写数据|
+|dac_clkdiv_set()|设置dac时钟分频|
+|dac_int_enable()|dac中断使能|
+|dac_int_disable()|dac中断失能|
+|dac_int_clear_pending()|清dac中断标志位|
 
 ### 初始化DAC器件 ###
 使能DAC器件，函数原型如下所示：  
 ```C
+
 void dac_power_set(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
 
-	avdd_cap_calibrate(ADDA);
-
-    ADDA->ADC_CTRL0 &= ~(1<<31);
-    ADDA->ADC_CTRL0 |= 0x708800;
-
-	ADDA->ADC_CTRL1 &= ~(0x0F<<7);
-	ADDA->ADC_CTRL1 |= AVDD_CAP_TRIM<<7;
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 清空DAC缓存 ###
 清空DAC缓存，函数原型如下所示：  
 ```C
+
 void dac_fifo_clear(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    ADDA->DAC_FIFO_CTRL |= 1 << 31;
-	ADDA->DAC_FIFO_CTRL &= ~BIT(31);//must clear the bit manually
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 设置DAC水线 ###
 设置DAC水线，函数原型如下所示：  
 ```C
+
 void dac_watermark_set(ADDA_TypeDef *ADDA, uint8_t water_mark)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    ADDA->DAC_FIFO_CTRL = water_mark << 8;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|water_mark|DAC输出水线|
+|**返回值**|描述|
+|无|-|
 
 ### 查询是否超出水线 ###
 查询是否超出水线，函数原型如下所示：  
 ```C
+
 bool is_dac_fifo_over_watermark(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    
-    int over_watermark = (ADDA->DAC_FIFO_CTRL >> 17) & 0x1;
-    if(over_watermark)
-        return true;
-    else
-        return false;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|true|DAC缓存超过水线|
+|false|DAC缓存未超过水线|
 
 ### 查询DAC缓存是否已满 ###
 查询DAC缓存是否已满，函数原型如下所示：  
 ```C
+
 bool is_dac_fifo_full(ADDA_TypeDef *ADDA)
-{
-    int full = (ADDA->DAC_FIFO_CTRL >> 18) & 0x1;
-    if(full)
-        return true;
-    else
-        return false;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|true|DAC缓存为空|
+|false|DAC缓存非空|
 
 ### DAC写数据 ###
 DAC写数据，函数原型如下所示：  
 ```C
-void dac_write(ADDA_TypeDef *ADDA, uint16_t wdata)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    CHECK_PARAM(PARAM_DAC_WT_RATE(wdata));
 
-    ADDA->DAC_FIFO_WRITE = wdata;
-}
+void dac_write(ADDA_TypeDef *ADDA, uint16_t wdata)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|wdata|DAC输出的数据|
+|**返回值**|描述|
+|无|-|
 
 ### 设置DAC分频 ###
 设置DAC分频，函数原型如下所示：  
 ```C
-void dac_clkdiv_set(ADDA_TypeDef *ADDA, uint16_t clk_div)
-{
-    CHECK_PARAM(PARAM_CLK_DIV_RATE(clk_div));
-    CHECK_PARAM(PARAM_ADDC(ADDA));
 
-    ADDA->DAC_CLK_DIV = clk_div << 1;
-}
+void dac_clkdiv_set(ADDA_TypeDef *ADDA, uint16_t clk_div)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|clk_div|DAC分频系数|
+|**返回值**|描述|
+|无|-|
 
 ### DAC中断使能 ###
 DAC中断使能，函数原型如下所示：  
 ```C
+
 void dac_int_enable(ADDA_TypeDef *ADDA)
-{
-	CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADDA_IRQ_CTRL |= (1<<1);
-	IER |= (1 << 21);
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### DAC中断失能 ###
 DAC中断失能，函数原型如下所示：  
 ```C
+
 void dac_int_disable(ADDA_TypeDef *ADDA)
-{
-	CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADDA_IRQ_CTRL &= ~(1<<1);
-	IER &= ~(1 << 21);
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 清中断标志位 ###
 清中断标志位，函数原型如下所示：  
 ```C
+
 void dac_int_clear_pending(void)
-{
-	ICP |= 1<<21;
-}
+
 ```
 
 ## DAC使用示例 ##
