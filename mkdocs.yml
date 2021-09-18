@@ -18,6 +18,7 @@ pages:
           - 'gpio': MCU/imperio/gpio/GPIO.md
           - 'adc': MCU/imperio/ADC/ADC.md
           - 'dac': MCU/imperio/DAC/DAC.md
+          - 'pmu': MCU/imperio/PMU/lowpower.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
