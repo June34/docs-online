@@ -16,22 +16,47 @@
 
 GPIO功能复用，配置PAD_MUX寄存器对应的位，可将IO复用为其它特定的功能。复用功能对照表如下：
 
-| GPIO   | 复用功能         | GPIO   | 复用功能           |
-| ------ | ---------------- | ------ | ------------------ |
-| GPIO3  | I2C, SCL         | GPIO17 | UART2, UART_RTS    |
-| GPIO4  | I2C, SDA         | GPIO18 | UART2, UART_DTR    |
-| GPIO5  | SMARTCARD, TX    | GPIO19 | UART2, UART_CTS    |
-| GPIO6  | SMARTCARD, CLK   | GPIO20 | UART2, UART_DSR    |
-| GPIO7  | SMARTCARD, RST   | GPIO21 | UART2, UART_AUX_TX |
-| GPIO8  | SPI MASTER, CLK  | GPIO22 | UART2, UART_AUX_RX |
-| GPIO9  | SPI MASTER, SDO0 | GPIO26 | PWM, PWM_OUT0      |
-| GPIO10 | SPI MASTER, SDO1 | GPIO27 | PWM, PWM_OUT1      |
-| GPIO11 | SPI MASTER, SDO2 | GPIO28 | PWM, PWM_OUT2      |
-| GPIO12 | SPI MASTER, SDO3 | GPIO29 | PWM, PWM_OUT3      |
-| GPIO13 | SPI MASTER, CSN0 |        |                    |
-| GPIO14 | SPI MASTER, CSN1 |        |                    |
-| GPIO15 | SPI MASTER, CSN2 |        |                    |
-| GPIO16 | SPI MASTER, CSN3 |        |                    |
+| GPIO   | 复用功能         | GPIO   | 复用功能        |
+| ------ | ---------------- | ------ | --------------- |
+| GPIO0  | SPI SLAVE, SDI0  | GPIO17 | UART2, UART_RTS |
+| GPIO1  | SPI SLAVE, SDI1  | GPIO18 | UART2, UART_DTR |
+| GPIO2  | SPI SLAVE, SDI2  | GPIO19 |                 |
+| GPIO3  | SPI SLAVE, SDI3  | GPIO20 |                 |
+| GPIO4  | SPI SLAVE, CLK   | GPIO21 |                 |
+| GPIO5  | I2C,SCL          | GPIO22 |                 |
+| GPIO6  | I2C,SDA          | GPIO23 |                 |
+| GPIO7  | AP CLK SYNC      | GPIO24 |                 |
+| GPIO8  | SPI MASTER, CLK  | GPIO25 |                 |
+| GPIO9  | SPI MASTER, SDO0 | GPIO26 |                 |
+| GPIO10 | SPI MASTER, SDO1 | GPIO27 |                 |
+| GPIO11 | SPI MASTER, SDO2 | GPIO28 |                 |
+| GPIO12 | SPI MASTER, SDO3 | GPIO29 |                 |
+| GPIO13 | SPI MASTER, CSN0 | GPIO30 |                 |
+| GPIO14 | UART1, TX        | GPIO31 |                 |
+| GPIO15 | SPI MASTER, CSN1 |        |                 |
+| GPIO16 | SPI MASTER, CSN2 |        |                 |
+
+配置PAD_MUX1寄存器对应的位，可将IO复用为其它特定的功能。复用功能对照表如下：
+
+| GPIO   | 复用功能              | GPIO   | 复用功能     |
+| ------ | --------------------- | ------ | ------------ |
+| GPIO0  | SPI MASTER, CLK       | GPIO17 | PWM,PWM_OUT2 |
+| GPIO1  | SPI MASTER, CSN       | GPIO18 | PWM,PWM_OUT3 |
+| GPIO2  | SPI MASTER, SDI       | GPIO19 |              |
+| GPIO3  | SPI MASTER, SDO       | GPIO20 |              |
+| GPIO4  | I2C, SCL              | GPIO21 |              |
+| GPIO5  | RX_OUT_I_IO(for test) | GPIO22 |              |
+| GPIO6  | RX_OUT_Q_IO(for test) | GPIO23 |              |
+| GPIO7  | RX CLK(for test)      | GPIO24 |              |
+| GPIO8  | CLK32(for test)       | GPIO25 | CANBUS,TX    |
+| GPIO9  | DCXO CLK(for test)    | GPIO26 | CANBUS,TX    |
+| GPIO10 | CAN BUS,TX            | GPIO27 |              |
+| GPIO11 | CAN BUS,RX            | GPIO28 |              |
+| GPIO12 | UART1,UART_TX         | GPIO29 |              |
+| GPIO13 | UART1,UART_RX         | GPIO30 |              |
+| GPIO14 | I2C,SDA               | GPIO31 |              |
+| GPIO15 | PWM,PWM_OUT0          |        |              |
+| GPIO16 | PWM,PWM_OUT1          |        |              |
 
 ## 代码解密和CCE使能
 
