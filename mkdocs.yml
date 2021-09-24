@@ -22,6 +22,12 @@ pages:
           - 'trng': MCU/imperio/TRNG/TRNG.md
           - 'evtc': MCU/imperio/evtc/EVTC.md
           - 'flash': MCU/imperio/flash/flash.md
+          - 'spimaster': MCU/imperio/spimaster/spimaster.md
+          - 'RTC': MCU/imperio/RTC/RTC.md
+          - 'peripheralcontrol': MCU/imperio/peripheralcontrol/peripheralcontrol.md
+          - 'timer': MCU/imperio/timer/timer.md
+          - 'uart': MCU/imperio/uart/uart.md
+          - 'udma': MCU/imperio/udma/udma.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
