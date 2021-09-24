@@ -21,9 +21,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 ### SPI-MASTER功能与操作说明
 
-<div align=left>
-    <img src="spim.png">
-</div>
+![spim](spim.png)
+
 
 **通常SPI通过4个引脚与外部器件相连：**
 
@@ -43,9 +42,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 **设备配置为SPI模式，时序图如下：**
 
-<div align=left>
-    <img src ="spimtime.png">
-</div>
+![spimtime](spimtime.png)
+
 
 - SPI通信过程，数据在下降沿改变，上升沿锁存，此模块只支持一种时钟相位。
 - MSB在前，若CMD或者ADDR不足32位，需移位到高位。
@@ -53,9 +51,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 **设备配置为QSPI模式，时序图如下：**
 
-<div align=left>
-    <img src = "qspitime.png">
-</div>
+![qspitime](qspitime.png)
+
 
 - QSPI通信过程，数据在下降沿改变，上升沿锁存，此模块只支持一种时钟相位。
 - MSB在前，若CMD或者ADDR不足32位，需移位到高位。

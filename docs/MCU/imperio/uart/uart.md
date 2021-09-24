@@ -8,9 +8,8 @@ UART（Universal Asynchronous Receiver/Transmitter）通用异步收发传输器
 
 UART 串口的特点是将数据一位一位地顺序传送，只要 2 根传输线就可以实现双向通信，一根线发送数据的同时用另一根线接收数据。UART 串口通信有几个重要的参数，分别是波特率、起始位、数据位、停止位和奇偶检验位，对于两个使用 UART 串口通信的端口，这些参数必须匹配，否则通信将无法正常完成。UART 串口传输的数据格式如下图所示：
 
-<div align = left> 
-    <img src = "uart2.png">
-</div>
+![uart2](uart2.png)
+
 
 - 起始位：表示数据传输的开始，电平逻辑为 “0” 。
 - 数据位：可能值有 5、6、7、8、9，表示传输这几个 bit 位数据。一般取值为 8，因为一个 ASCII 字符值为 8 位。
@@ -29,9 +28,8 @@ UART 串口的特点是将数据一位一位地顺序传送，只要 2 根传输
 
 UART结构框图如下所示：
 
-<div align = left>
-    <img src= "uart1.png">
-</div>
+![uart1](uart1.png)
+
 
 通常UART通过2个引脚与外部器件相连：
 
