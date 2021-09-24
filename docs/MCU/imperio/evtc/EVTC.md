@@ -134,6 +134,8 @@ void evtc_unshield_masks(EVTC_TYPE *EVTC, EVTC_TYPE_t evtc_type);
 以下提供使用UART作为事件源触发事件实例。
 ```C
 #include <stdio.h>
+#include "evtc.h"
+#include "pmu.h"
 
 static void delay_ms(uint32_t nms)
 {

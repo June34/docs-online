@@ -20,6 +20,7 @@ pages:
           - 'dac': MCU/imperio/DAC/DAC.md
           - 'pmu': MCU/imperio/PMU/lowpower.md
           - 'trng': MCU/imperio/TRNG/TRNG.md
+          - 'evtc': MCU/imperio/evtc/EVTC.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
