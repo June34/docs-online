@@ -1,5 +1,5 @@
-# 通用I/O（GPIO）综述 #
-## 简介 ##
+# 通用I/O（GPIO） #
+## GPIO简介 ##
 GPIO控制器可以驱动或者获取信号/数据。通过相应的寄存器，可以定义I/O的功能、方向、状态以及中断。
 ### 主要特征 ###
 &emsp;&emsp;-&emsp;受控I/O个数微29  
@@ -38,7 +38,7 @@ void gpio_init(GPIO_TypeDef *GPIO,GPIO_CFG_TypeDef *GPIO_CFG,GPIO_CFG_Type *gpio
 |**参数**|**描述**|
 |:---:|:---:|
 |GPIO|操作句柄|
-|GPIO_CFG|GPIO配置|
+|GPIO_CFG|GPIO寄存器配置|
 |gpio_cfg|配置类型|
 |**返回值**|描述|
 |无|-|
