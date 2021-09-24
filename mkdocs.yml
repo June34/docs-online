@@ -24,7 +24,7 @@ pages:
           - 'flash': MCU/imperio/flash/flash.md
           - 'spimaster': MCU/imperio/spimaster/spimaster.md
           - 'RTC': MCU/imperio/RTC/RTC.md
-          - 'peripheralcontrol': MCU/imperio/peripheralcontrol/peripheralcontrol.md
+          - 'peripheralcontrol': MCU/imperio/peripheralcontrol/peripheral.md
           - 'timer': MCU/imperio/timer/timer.md
           - 'uart': MCU/imperio/uart/uart.md
           - 'udma': MCU/imperio/udma/udma.md
