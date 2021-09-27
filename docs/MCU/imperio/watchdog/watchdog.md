@@ -16,12 +16,12 @@
 
 应用程序根据提供的库函数接口来访问看门狗硬件，相关接口如下所示：
 
-| 函数名称                                                   | 描述             |
-| :--------------------------------------------------------- | ---------------- |
-| `extern void wdt_init(WDG_TYPE* WDG, uint32_t period_ms);` | 初始化看门狗设备 |
-| `extern void wdt_enable(WDG_TYPE *WDG);`                   | 使能看门狗设备   |
-| `extern void wdt_disable(WDG_TYPE *WDG);`                  | 关闭看门狗设备   |
-| `extern void wdt_feed(WDG_TYPE *WDG);`                     | 喂食看门狗设备   |
+| 函数名称                     | 描述             |
+| :--------------------------- | ---------------- |
+| `extern void wdt_init();`    | 初始化看门狗设备 |
+| `extern void wdt_enable();`  | 使能看门狗设备   |
+| `extern void wdt_disable();` | 关闭看门狗设备   |
+| `extern void wdt_feed();`    | 喂食看门狗设备   |
 
 
 
@@ -32,16 +32,7 @@
 使用看门狗设备之前，必须执行初始化操作，使用下列函数来初始化看门狗设备：
 
 ```C
-void wdt_init(WDG_TYPE* WDG, uint32_t period_ms)
-{
-    CHECK_PARAM(PARAM_WDG(WDG));
-
-    WDG->WIV = 0xFFFFFFFFU - period_ms*32768U/1000;
-    
-    /*wdt reload initial counter*/
-    WDG->WFD |= WDG_FEED_MASK;
-
-}
+void wdt_init(WDG_TYPE* WDG, uint32_t period_ms);
 ```
 
 
@@ -51,13 +42,7 @@ void wdt_init(WDG_TYPE* WDG, uint32_t period_ms)
 定期喂食看门狗，让系统正常运行，使用下列函数来初始化看门狗：
 
 ```C
-void wdt_feed(WDG_TYPE *WDG)
-{
-    CHECK_PARAM(PARAM_WDG(WDG));
-
-    WDG->WFD |= WDG_FEED_MASK;
-
-}
+void wdt_feed(WDG_TYPE *WDG);
 ```
 
 
@@ -67,13 +52,7 @@ void wdt_feed(WDG_TYPE *WDG)
 当应用程序初始完看门狗后，使用下列函数来使能看门狗：
 
 ```C
-void wdt_enable(WDG_TYPE *WDG)
-{
-    CHECK_PARAM(PARAM_WDG(WDG));
-
-	WDG->CTR |= (WDG_ENABLE_MASK);
-
-}
+void wdt_enable(WDG_TYPE *WDG);
 ```
 
 
@@ -83,13 +62,7 @@ void wdt_enable(WDG_TYPE *WDG)
 当应用程序完成看门狗操作后，可以关闭看门狗设备，通过下列函数完成：
 
 ```C
-void wdt_disable(WDG_TYPE *WDG)
-{
-    CHECK_PARAM(PARAM_WDG(WDG));
-
-	WDG->CTR &= ~(WDG_ENABLE_MASK);
-
-}
+void wdt_disable(WDG_TYPE *WDG);
 ```
 
 

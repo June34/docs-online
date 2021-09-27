@@ -18,17 +18,17 @@
 
 应用程序通过库函数提供的TIMER控制函数来访问TIMER设备硬件，相关接口如下所示：
 
-| 函数                                                         | 描述                 |
-| ------------------------------------------------------------ | -------------------- |
-| `void timer_init(TIMER_TYPE *TIMERx, TIMER_CFG_Type *cfg);`  | 初始化定时器设备     |
-| `void timer_enable(TIMER_TYPE *TIMERx);`                     | 使能定时器设备       |
-| `void timer_disable(TIMER_TYPE *TIMERx);`                    | 关闭定时器设备       |
-| `void timer_int_enable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);` | 使能定时器中断       |
-| `void timer_int_disable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);` | 关闭定时器中断       |
-| `void timer_int_clear_pending(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);` | 清除定时器中断标志位 |
-| `void timer_set_count(TIMER_TYPE *TIMERx, uint32_t count);`  | 设置定时器计数值     |
-| `uint32_t timer_get_count(TIMER_TYPE *TIMERx);`              | 获取定时器计数值     |
-| `void timer_set_compare_value(TIMER_TYPE *TIMERx, uint32_t cmp);` | 设置定时器比较值     |
+| 函数                              | 描述                 |
+| --------------------------------- | -------------------- |
+| `void timer_init();`              | 初始化定时器设备     |
+| `void timer_enable();`            | 使能定时器设备       |
+| `void timer_disable();`           | 关闭定时器设备       |
+| `void timer_int_enable();`        | 使能定时器中断       |
+| `void timer_int_disable();`       | 关闭定时器中断       |
+| `void timer_int_clear_pending();` | 清除定时器中断标志位 |
+| `void timer_set_count();`         | 设置定时器计数值     |
+| `uint32_t timer_get_count();`     | 获取定时器计数值     |
+| `void timer_set_compare_value();` | 设置定时器比较值     |
 
 
 
@@ -37,16 +37,7 @@
 通过下列函数对TIMER接口进行初始化设置:
 
 ```C
-void timer_init(TIMER_TYPE *TIMERx, TIMER_CFG_Type *cfg)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-    CHECK_PARAM(PARAM_TIMER_PRESCALER(cfg->pre));
-
-    TIMERx->CTR |= (cfg->pre << 3);
-    TIMERx->CMP = cfg->cmp;
-    TIMERx->TRR = cfg->cnt;
-
-}
+void timer_init(TIMER_TYPE *TIMERx, TIMER_CFG_Type *cfg);
 ```
 
 
@@ -56,13 +47,7 @@ void timer_init(TIMER_TYPE *TIMERx, TIMER_CFG_Type *cfg)
 通过下列函数对TIMER设备使能:
 
 ```C
-void timer_enable(TIMER_TYPE *TIMERx)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-
-	TIMERx->CTR |= (TIMER_ENABLE_MASK);
-
-}
+void timer_enable(TIMER_TYPE *TIMERx);
 ```
 
 
@@ -72,13 +57,7 @@ void timer_enable(TIMER_TYPE *TIMERx)
 通过下列函数关闭TIMER设备:
 
 ```C
-void timer_disable(TIMER_TYPE *TIMERx)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-
-	TIMERx->CTR &= ~(TIMER_ENABLE_MASK);
-
-}
+void timer_disable(TIMER_TYPE *TIMERx);
 ```
 
 
@@ -88,33 +67,7 @@ void timer_disable(TIMER_TYPE *TIMERx)
 通过下列函数对TIMER设备的中断进行使能:
 
 ```C
-void timer_int_enable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-	CHECK_PARAM(PARAM_TIMER_IT_TYPE(it));
-	if (TIMERx == UC_TIMER0)
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			IER |= (1<<28);
-		}
-		else
-		{
-			IER |= (1<<29);
-		}
-	}
-	else
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			IER |= (1<<30);
-		}
-		else
-		{
-			IER |= (1<<31);
-		}
-	}
-}
+void timer_int_enable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);
 ```
 
 
@@ -124,33 +77,7 @@ void timer_int_enable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
 通过下列函数关闭TIMER设备的中断:
 
 ```C
-void timer_int_disable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-	CHECK_PARAM(PARAM_TIMER_IT_TYPE(it));
-	if (TIMERx == UC_TIMER0)
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			IER &= ~(1<<28);
-		}
-		else
-		{
-			IER &= ~(1<<29);
-		}
-	}
-	else
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			IER &= ~(1<<30);
-		}
-		else
-		{
-			IER &= ~(1<<31);
-		}
-	}
-}
+void timer_int_disable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);
 ```
 
 
@@ -160,33 +87,7 @@ void timer_int_disable(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
 通过下列函数清除TIMER设备的中断标志位:
 
 ```C
-void timer_int_clear_pending(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
-{
-	CHECK_PARAM(PARAM_TIMER(TIMERx));
-	CHECK_PARAM(PARAM_TIMER_IT_TYPE(it));
-	if (TIMERx == UC_TIMER0)
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			ICP |= (1<<28);
-		}
-		else
-		{
-			ICP |= (1<<29);
-		}
-	}
-	else
-	{
-		if (it == TIMER_IT_OVF)
-		{
-			ICP |= (1<<30);
-		}
-		else
-		{
-			ICP |= (1<<31);
-		}
-	}
-}
+void timer_int_clear_pending(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it);
 ```
 
 
@@ -196,13 +97,7 @@ void timer_int_clear_pending(TIMER_TYPE *TIMERx, TIMER_INT_TYPE it)
 通过下列函数设置TIMER设备的计数值:
 
 ```C
-void timer_set_count(TIMER_TYPE *TIMERx, uint32_t count)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-
-    TIMERx->TRR = count;
-
-}
+void timer_set_count(TIMER_TYPE *TIMERx, uint32_t count);
 ```
 
 
@@ -212,13 +107,7 @@ void timer_set_count(TIMER_TYPE *TIMERx, uint32_t count)
 通过下列函数获取TIMER设备的计数值:
 
 ```C
-uint32_t timer_get_count(TIMER_TYPE *TIMERx)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-
-    return TIMERx->TRR;
-
-}
+uint32_t timer_get_count(TIMER_TYPE *TIMERx);
 ```
 
 
@@ -228,13 +117,7 @@ uint32_t timer_get_count(TIMER_TYPE *TIMERx)
 通过下列函数设置TIMER设备的比较值:
 
 ```C
-void timer_set_compare_value(TIMER_TYPE *TIMERx, uint32_t cmp)
-{
-    CHECK_PARAM(PARAM_TIMER(TIMERx));
-
-    TIMERx->CMP = cmp;
-
-}
+void timer_set_compare_value(TIMER_TYPE *TIMERx, uint32_t cmp);
 ```
 
 

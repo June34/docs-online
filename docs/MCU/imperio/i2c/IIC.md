@@ -7,133 +7,129 @@ I2C(芯片间)总线接口连接微控制器和串行I2C总线。它提供多主
 
 |函数|描述|
 |:---:|:---:|
-|void i2c_setup(I2C_TYPE *I2C, I2C_CFG_Type *I2CconfigStruct)|初始化I2C设备，并配置I2C工作模式|
-|void i2c_cmd(I2C_TYPE *I2C, FunctionalState NewState)|配置I2C工作模式|
-|void i2c_send_command(I2C_TYPE *I2C, I2C_CMD cmd)|I2C发送命令|
-|void i2c_send_data(I2C_TYPE *I2C, uint8_t data)|I2C发送数据|
-|uint32_t i2c_get_status(I2C_TYPE *I2C)|获取当前状态|
-|I2CTXStatus i2c_get_txstatus(I2C_TYPE *I2C)|获取当前发送状态|
-|I2CACK i2c_get_ack(I2C_TYPE *I2C)|等待应答|
-|uint32_t i2c_get_data(I2C_TYPE *I2C)|读取数据|
-|I2CStatus i2c_busy(I2C_TYPE *I2C)|查询I2C是否为忙状态|
+|i2c_setup()|初始化I2C设备，并配置I2C工作模式|
+|i2c_cmd()|配置I2C工作模式|
+|i2c_send_command()|I2C发送命令|
+|i2c_send_data()|I2C发送数据|
+|i2c_get_status()|获取当前状态|
+|i2c_get_txstatus()|获取当前发送状态|
+|i2c_get_ack()|等待应答|
+|i2c_get_data()|读取数据|
+|i2c_busy()|查询I2C是否为忙状态|
 
 ### 初始化I2C器件 ###
 在使用I2C总线时，首先应对其进行初始化，指定I2C设备地址，并指定工作模式，初始化函数原型如下所示：  
 ```C
+
 void i2c_setup(I2C_TYPE *I2C, I2C_CFG_Type *I2CconfigStruct)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
-    CHECK_PARAM(PARAM_I2C_TRANSFER_RATE(I2CconfigStruct->prescaler));
 
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_3, GPIO_FUNC_1);
-    gpio_set_pin_pupd(UC_GPIO_CFG, GPIO_PIN_3, GPIO_PUPD_UP);
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_4, GPIO_FUNC_1);
-    gpio_set_pin_pupd(UC_GPIO_CFG, GPIO_PIN_4, GPIO_PUPD_UP);
-
-    I2C->CPR = I2CconfigStruct->prescaler & I2C_PRESCALER_MASK;
-
-    I2C->CTR |= (I2C_ENABLE_MASK);
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|I2CconfigStruct|IIC配置信息|
+|**返回值**|描述|
+|无|-|
 
 ### 配置I2C工作模式 ###
 在I2C器件初始化时已经配置了其工模式，i2c_cmd()函数可在初始化后对其进行修改，用法同i2c_setup()，函数原型如下：  
 ```C
-void i2c_cmd(I2C_TYPE *I2C, FunctionalState NewState)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
-    CHECK_PARAM(PARAM_I2C_ENBIT(NewState));
 
-    if(NewState)
-    {
-        I2C->CTR |= (I2C_ENABLE_MASK);
-    }
-    else
-    {
-        I2C->CTR &= ~(I2C_ENABLE_MASK);
-    }
-}
+void i2c_cmd(I2C_TYPE *I2C, FunctionalState NewState)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|NewState|IIC功能使能|
+|**返回值**|描述|
+|无|-|
 
 ### 数据传输 ###
 数据传输含有两个函数，分别是i2c_send_command()和i2c_send_data()，用发相同，函数原型如下：  
 ```C
-void i2c_send_command(I2C_TYPE *I2C, I2C_CMD cmd)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
-    CHECK_PARAM(PARAM_I2C_CMD(cmd));
 
-    I2C->CDR = cmd;
-}
+void i2c_send_command(I2C_TYPE *I2C, I2C_CMD cmd)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|cmd|IIC发送命令|
+|**返回值**|描述|
+|无|-|
+
 
 ```C
-void i2c_send_data(I2C_TYPE *I2C, uint8_t data)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
 
-    I2C->TXR = data;
-}
+void i2c_send_data(I2C_TYPE *I2C, uint8_t data)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|cmd|IIC发送数据|
+|**返回值**|描述|
+|无|-|
 
 ### 获取状态 ###
 获取I2C器件状态，可单一读取某一寄存器值，也可读取全部寄存器的值，获取状态的函数原型包含一下3个：  
 ```C
+
 uint32_t i2c_get_status(I2C_TYPE *I2C)
-{
-    uint32_t temreg;
 
-    CHECK_PARAM(PARAM_I2C(I2C));
-
-    temreg = I2C->STR;
-
-    return temreg;
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|**返回值**|描述|
+|uint32_t|状态寄存器值|
 
 ```C
+
 I2CTXStatus i2c_get_txstatus(I2C_TYPE *I2C)
-{
-    I2CTXStatus temstatus;
 
-    CHECK_PARAM(PARAM_I2C(I2C));
-
-    temstatus = (I2CTXStatus)(I2C->STR & I2C_TIP_MASK);
-
-    return temstatus;
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|**返回值**|描述|
+|I2CTXStatus|发送状态寄存器值|
 
 ```C
-I2CStatus i2c_busy(I2C_TYPE *I2C)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
 
-    return ((I2C->STR&I2C_BUSY_MASK) == I2C_BUSY_MASK);
-}
+I2CStatus i2c_busy(I2C_TYPE *I2C)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|**返回值**|描述|
+|I2CStatus|忙状态寄存器值|
 
 ### 读取数据 ###
-I2C获取的数据包含两类，一类是对端发送的数据，另一类是I2C总写协议中固定的ACK应答数据，获取数据和应答的函数原型如下：  
+I2C获取的数据包含两类，一类是对端发送的数据，另一类是I2C总线协议中固定的ACK应答数据，获取数据和应答的函数原型如下：  
 ```C
+
 uint32_t i2c_get_data(I2C_TYPE *I2C)
-{	
-    CHECK_PARAM(PARAM_I2C(I2C));
 
-	return (I2C->RXR & 0xff);
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|**返回值**|描述|
+|uint32_t|读取的IIC数据|
 
 ```C
-I2CACK i2c_get_ack(I2C_TYPE *I2C)
-{
-    CHECK_PARAM(PARAM_I2C(I2C));
-	while((I2C->STR & I2C_STATUS_TIP) == 0);// need TIP go to 1
-	while((I2C->STR & I2C_STATUS_TIP) != 0);// and then go back to 0
 
-	return !(I2C->STR & I2C_STATUS_RXACK);// invert since signal is active low
-}
+I2CACK i2c_get_ack(I2C_TYPE *I2C)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|I2C|操作句柄|
+|**返回值**|描述|
+|I2CACK|读取的IIC应答数据|
 
 ## I2C使用示例 ##
 在以下实例中，I2C从机挂接一颗AT24C02，AT24C02是一个2K位的串行CMOS E2PROM，内部含有256个8位字节，该器件通过I2C总线进行操作。示例代码操作如下：  

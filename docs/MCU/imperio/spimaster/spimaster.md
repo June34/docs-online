@@ -21,9 +21,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 ### SPI-MASTER功能与操作说明
 
-<div align=left>
-    <img src="spim.png">
-</div>
+![spim](spim.png)
+
 
 **通常SPI通过4个引脚与外部器件相连：**
 
@@ -43,9 +42,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 **设备配置为SPI模式，时序图如下：**
 
-<div align=left>
-    <img src ="spimtime.png">
-</div>
+![spimtime](spimtime.png)
+
 
 - SPI通信过程，数据在下降沿改变，上升沿锁存，此模块只支持一种时钟相位。
 - MSB在前，若CMD或者ADDR不足32位，需移位到高位。
@@ -53,9 +51,8 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 **设备配置为QSPI模式，时序图如下：**
 
-<div align=left>
-    <img src = "qspitime.png">
-</div>
+![qspitime](qspitime.png)
+
 
 - QSPI通信过程，数据在下降沿改变，上升沿锁存，此模块只支持一种时钟相位。
 - MSB在前，若CMD或者ADDR不足32位，需移位到高位。
@@ -66,12 +63,12 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 
 应用程序通过库函数提供的SPIM控制函数来访问SPIM设备硬件，相关接口如下所示：
 
-| 函数                                                         | 描述            |
-| ------------------------------------------------------------ | --------------- |
-| `void mem_init()`                                            | 复用GPIO口函数  |
-| `void mem_set_dummy(SPI_TypeDef *SPIx,uint8_t cycles)`       | 设置SPIM的dummy |
-| `void mem_read(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size)` | SPIM读          |
-| `void mem_write(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size)` | SPIM写          |
+| 函数                   | 描述            |
+| ---------------------- | --------------- |
+| `void mem_init()`      | 复用GPIO口函数  |
+| `void mem_set_dummy()` | 设置SPIM的dummy |
+| `void mem_read()`      | SPIM读          |
+| `void mem_write()`     | SPIM写          |
 
 
 
@@ -80,17 +77,7 @@ QSPI是Queued SPI简写，是Motorola公司推出的SPI接口扩展，比SPI应�
 通过下列函数对SPIM接口进行复用设置:
 
 ```C
-void mem_init()
-{
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_13, GPIO_FUNC_1);//SPIM_CS0
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_10, GPIO_FUNC_1);//SPIM_DIO1
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_9, GPIO_FUNC_1);//SPIM_DIO0
-    gpio_set_pin_mux(UC_GPIO_CFG, GPIO_PIN_8, GPIO_FUNC_1);//SPIM_CLK    
-    
-
-    mem_set_dummy(UC_SPIM,31);
-
-}
+void mem_init();
 ```
 
 ## 设置SPIM dummy
@@ -98,14 +85,7 @@ void mem_init()
 通过下列函数设置SPIM传输dummy：
 
 ```C
-void mem_set_dummy(SPI_TypeDef *SPIx,uint8_t cycles)
-{
-    spim_setup_cmd_addr(SPIx,MEM_SET_REG,8,cycles<<24,8);
-    spim_setup_dummy(SPIx,0,0);
-    spim_set_datalen(SPIx,0);
-    spim_start_transaction(SPIx,SPIM_CMD_WR, SPIM_CSN0);
-    while ((spim_get_status(SPIx) & 0xFFFF) != 1);
-}
+void mem_set_dummy(SPI_TypeDef *SPIx,uint8_t cycles);
 ```
 
 ## SPIM设备读
@@ -113,16 +93,7 @@ void mem_set_dummy(SPI_TypeDef *SPIx,uint8_t cycles)
 通过下列函数进行SPIM读操作：
 
 ```C
-void mem_read(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size)
-{
-    uint32_t len = size * 8;
-    spim_setup_cmd_addr(SPIx,MEM_READ,8,addr,32);
-    spim_setup_dummy(SPIx,32,0);
-    spim_set_datalen(SPIx,len);
-    spim_start_transaction(SPIx,SPIM_CMD_RD, SPIM_CSN0);
-    while ((spim_get_status(SPIx) & 0xFFFF) != 1);
-    spim_read_fifo(SPIx,buffer,len);
-}
+void mem_read(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size);
 ```
 
 ## SPIM设备写
@@ -130,16 +101,7 @@ void mem_read(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size)
 通过下列函数进行SPIM写操作：
 
 ```C
-void mem_write(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size)
-{
-    uint32_t len = size * 8;
-    spim_setup_cmd_addr(SPIx,MEM_WIRTE,8,addr,32);
-    spim_setup_dummy(SPIx,0,0);
-    spim_set_datalen(SPIx,len);
-    spim_write_fifo(SPIx,buffer,len);
-    spim_start_transaction(SPIx,SPIM_CMD_WR, SPIM_CSN0);
-    while ((spim_get_status(SPIx) & 0xFFFF) != 1);
-}
+void mem_write(SPI_TypeDef *SPIx, int addr,uint8_t* buffer,uint8_t size);
 ```
 
 

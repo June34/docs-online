@@ -14,12 +14,12 @@ PWM(Pulse Width Modulation , 脉冲宽度调制) 是一种对模拟信号电平�
 
 应用程序通过库函数提供的PWM控制函数来访问PWM设备硬件，相关接口如下所示：
 
-| 函数                                                     | 描述          |
-| -------------------------------------------------------- | ------------- |
-| `void pwm_enable(PWM_TypeDef* PWM);`                     | 使能PWM       |
-| `void pwm_disable(PWM_TypeDef* PWM);`                    | 关闭PWM       |
-| `void pwm_set_period(PWM_TypeDef* PWM, int period_cnt);` | 设置PWM周期   |
-| `void pwm_set_duty(PWM_TypeDef* PWM, int duty_cnt);`     | 设置PWM占空比 |
+| 函数                     | 描述          |
+| ------------------------ | ------------- |
+| `void pwm_enable();`     | 使能PWM       |
+| `void pwm_disable();`    | 关闭PWM       |
+| `void pwm_set_period();` | 设置PWM周期   |
+| `void pwm_set_duty();`   | 设置PWM占空比 |
 
 
 
@@ -28,13 +28,7 @@ PWM(Pulse Width Modulation , 脉冲宽度调制) 是一种对模拟信号电平�
 通过下列函数对PWM的周期进行设置:
 
 ```C
-void pwm_set_period(PWM_TypeDef* PWM, int period_cnt)
-{
-    CHECK_PARAM(PARAM_PWM(PWM));
-
-    PWM->CNTMAX = period_cnt;
-
-}
+void pwm_set_period(PWM_TypeDef* PWM, int period_cnt);
 ```
 
 
@@ -44,17 +38,7 @@ void pwm_set_period(PWM_TypeDef* PWM, int period_cnt)
 通过下列函数设置PWM的占空比：
 
 ```C
-void pwm_set_duty(PWM_TypeDef* PWM, int duty_cnt)
-{
-    CHECK_PARAM(PARAM_PWM(PWM));
-
-    int max_cnt = PWM->CNTMAX;
-    if(duty_cnt > max_cnt)
-        PWM->DUTY = max_cnt;
-    else
-        PWM->DUTY = duty_cnt;
-
-}
+void pwm_set_duty(PWM_TypeDef* PWM, int duty_cnt);
 ```
 
 
@@ -64,13 +48,7 @@ void pwm_set_duty(PWM_TypeDef* PWM, int duty_cnt)
 通过下列函数使能PWM设备:
 
 ```C
-void pwm_enable(PWM_TypeDef* PWM)
-{
-    CHECK_PARAM(PARAM_PWM(PWM));
-
-    PWM->CTRL |= (1<<0);
-
-}
+void pwm_enable(PWM_TypeDef* PWM);
 ```
 
 
@@ -80,13 +58,7 @@ void pwm_enable(PWM_TypeDef* PWM)
 通过下列函数关闭PWM设备：
 
 ```C
-void pwm_disable(PWM_TypeDef* PWM)
-{
-    CHECK_PARAM(PARAM_PWM(PWM));
-
-    PWM->CTRL &= ~(1<<0);
-
-}
+void pwm_disable(PWM_TypeDef* PWM);
 ```
 
 
@@ -114,5 +86,5 @@ int main(int argc, char **argv)
 }
 ```
 
-8288PWM脉冲宽度调制器使用系统注释中为计数器时钟源
+**注：**<font color= red>8288PWM脉冲宽度调制器使用系统注释中为计数器时钟源</font>
 

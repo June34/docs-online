@@ -1,5 +1,5 @@
 # 辅助ADC综述 #
-## 简介 ##
+## ADC简介 ##
 UC8088的辅助ADC（AUX_ADC，ADC默认表示AUX_ADC）电路原理框图如下图所示。包含模拟路由器、缓冲器（Buffer）、单转双buffer（S2D）和逐次逼近型ADC（SQR-ADC）组成。  
 ![avatar](ADC.png)
 SAR-ADC 位宽为12bit，最高采样率可以到360KSPS（360K、180K，90K，45K四个档位可选，可以通过寄存器来修改ADC的时钟频率），8088一共有4个通道连接到辅助ADC，第一路是温度传感器部分电路，第二、第三、第四通道分别为IN_A_CHANNEL、IN_B_CHANNEL，IN_C_CHANNEL为片外输入信号通道，与第二、三通道片外信号直接输入不同的是，第四通道片外信号进入片内后经过PGA放大后再送到辅助ADC进行量化，PGA增益范围为（0.915~30dB），可由寄存器进行控制。另外还有一路电池电压检测通路，该电压是由电池电压进行分压（默认值是除以2.8，该值可由寄存器进行选择）后送入到ADC通路。辅助ADC的输入电压范围为0.1V~AVDD_CAP-0.1，参考电压即为AVDD_CAP。
@@ -8,232 +8,232 @@ SAR-ADC 位宽为12bit，最高采样率可以到360KSPS（360K、180K，90K，4
 
 |函数|描述|
 |:---:|:---:|
-|void adc_power_set(ADDA_TypeDef *ADDA)|初始化ADC设备|
-|void adc_reset(ADDA_TypeDef *ADDA)|ADC设备复位|
-|void adc_set_sample_rate(ADDA_TypeDef *ADDA, ADC_SAMPLE_RATE sample_rate)|设置采样率|
-|void adc_channel_select(ADDA_TypeDef *ADDA, ADC_CHANNEL CHANNEL)|选择采样通道|
-|void adc_int_enable(ADDA_TypeDef *ADDA)|中断采样使能|
-|void adc_int_disable(ADDA_TypeDef *ADDA)|中断采样失能|
-|void adc_int_clear_pending(void)|清中断标志位|
-|void adc_wait_data_ready(ADDA_TypeDef *ADDA)|等待数据转换完成|
-|uint16_t adc_read(ADDA_TypeDef *ADDA)|读取ADC值|
-|adc_watermark_set(ADDA_TypeDef *ADDA, uint8_t water_mark)|设置采样水线|
-|bool is_adc_fifo_over_watermark(ADDA_TypeDef *ADDA)|查看adc缓存是否已达到采样水线|
-|bool is_adc_fifo_empty(ADDA_TypeDef *ADDA)|查看adc缓存是否为空|
-|void adc_fifo_clear(ADDA_TypeDef *ADDA)|清空adc缓存|
-|void adc_vbat_measure_enable(bool enable)|电源采样使能|
-|void adc_temp_source_sel(ADDA_TypeDef *ADDA, ADC_TEMP_SRC temp_src)|设置温度传感器采样目标|
-|void adc_temp_sensor_enable(ADDA_TypeDef *ADDA, bool enable)|温度传感器采用使能|
+|adc_power_set()|初始化ADC设备|
+|adc_reset()|ADC设备复位|
+|adc_set_sample_rate()|设置采样率|
+|adc_channel_select()|选择采样通道|
+|adc_int_enable()|中断采样使能|
+|adc_int_disable()|中断采样失能|
+|adc_int_clear_pending()|清中断标志位|
+|adc_wait_data_ready()|等待数据转换完成|
+|adc_read()|读取ADC值|
+|adc_watermark_set()|设置采样水线|
+|is_adc_fifo_over_watermark()|查看adc缓存是否已达到采样水线|
+|is_adc_fifo_empty()|查看adc缓存是否为空|
+|adc_fifo_clear()|清空adc缓存|
+|adc_vbat_measure_enable()|电源采样使能|
+|adc_temp_source_sel()|设置温度传感器采样目标|
+|adc_temp_sensor_enable()|温度传感器采用使能|
 
 ### 初始化ADC器件 ###
 使能ADC器件，函数原型如下所示：  
 ```C
+
 void adc_power_set(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
 
-	avdd_cap_calibrate(ADDA);
-    ADDA->ADC_CTRL0 &= ~(1<<31);
-
-	ADDA->ADC_CTRL0 &= ~(0x0F<<28);//disable channel a, channel b, channel c and inside temp channel
-	ADDA->ADC_CTRL0 |= BIT(22)|BIT(21)|BIT(20)|BIT(18)|BIT(17)|BIT(16)|BIT(12)|BIT(7)|BIT(6)|BIT(27)|BIT(8);//|BIT(19);
-
-	ADDA->ADC_CTRL1 &= ~BIT(2);//disable battery channel
-	ADDA->ADC_CTRL1 |= BIT(17);// |BIT(27)|BIT(26);
-
-	ADDA->ADC_CTRL1 &= ~(0x03<<26);
-	ADDA->ADC_CTRL1 |= 0x03<<26;//adc_clk=26M/32, adc_sample_rate=adc_clk/18
-
-	//ADDA->ADC_CTRL1 =  (ADDA->ADC_CTRL1 & (~(0x07<<18))) 
-}
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 复位ADC器件 ###
 复位ADC，函数原型如下所示：  
 ```C
+
 void adc_reset(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    
-    ADDA->ADC_CTRL0 &= ~(1<<8);
-    //delay 10us
-    for (int i = 0; i < 131*10; i++)
-    {
-        asm("nop");
-    }
-    ADDA->ADC_CTRL0 |= 1<<8;    
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 设置ADC采样率 ###
 设置ADC采样率，函数原型如下所示：  
 ```C
+
 void adc_set_sample_rate(ADDA_TypeDef *ADDA, ADC_SAMPLE_RATE sample_rate)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADC_CTRL1 = (ADDA->ADC_CTRL1 & (~(0x03<<26))) | sample_rate;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|sample_rate|ADC采样率|
+|**返回值**|描述|
+|无|-|
 
 ### 选择ADC采样通道 ###
 选择ADC采样通道，函数原型如下所示：  
 ```C
-void adc_channel_select(ADDA_TypeDef *ADDA, ADC_CHANNEL CHANNEL)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADC_CTRL0 &= ~(0x0F<<28);//disable channel a, channel b, channel c and inside temp channel
-	ADDA->ADC_CTRL1 &= ~BIT(2);//disable battery channel
 
-    if (CHANNEL != ADC_CHANNEL_BAT)
-    {
-        ADDA->ADC_CTRL0 |= CHANNEL;
-    }
-    else
-    {
-        ADDA->ADC_CTRL1 |= CHANNEL;
-    }
-}
+void adc_channel_select(ADDA_TypeDef *ADDA, ADC_CHANNEL CHANNEL)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|CHANNEL|ADC输出通道|
+|**返回值**|描述|
+|无|-|
 
 ### 使能ADC中断 ###
 使能ADC中断，函数原型如下所示：  
 ```C
+
 void adc_int_enable(ADDA_TypeDef *ADDA)
-{
-	CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADDA_IRQ_CTRL |= (1<<0);
-	IER |= (1 << 20);
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 失能ADC中断 ###
 失能ADC中断，函数原型如下所示：  
 ```C
+
 void adc_int_disable(ADDA_TypeDef *ADDA)
-{
-	CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADDA_IRQ_CTRL &= ~(1<<0);
-	IER &= ~(1 << 20);
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 清ADC中断标志位 ###
 清ADC中断标志位，函数原型如下所示：  
 ```C
+
 void adc_int_clear_pending(void)
-{
-	ICP |= 1<<20;
-}
+
 ```
 
 ### 等待ADC采样结束 ###
 等待ADC采样结束，函数原型如下所示：  
 ```C
+
 void adc_wait_data_ready(ADDA_TypeDef *ADDA)
-{
-	while ((ADDA->ADC_FIFO_CTRL & (1<<19)) != 0)//wait data ready
-	{
-		asm("nop");
-	}
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 读取ADC值 ###
 读取ADC值，函数原型如下所示：  
 ```C
-uint16_t adc_read(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
 
-    return ADDA->ADC_FIFO_READ;
-}
+uint16_t adc_read(ADDA_TypeDef *ADDA)
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|uint16_t|ADC采样值|
 
 ### 设置ADC水线 ###
 设置ADC水线，函数原型如下所示：  
 ```C
+
 void adc_watermark_set(ADDA_TypeDef *ADDA, uint8_t water_mark)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    ADDA->ADC_FIFO_CTRL = water_mark << 8;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|water_mark|ASDC采样水线|
+|**返回值**|描述|
+|无|-|
 
 ### 查询是否超出水线 ###
 查询是否超出水线，函数原型如下所示：  
 ```C
+
 bool is_adc_fifo_over_watermark(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    int over_watermark = (ADDA->ADC_FIFO_CTRL >> 17) & 0x1;
-    if(over_watermark)
-        return true;
-    else
-        return false;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|true|采样值超出水线|
+|false|采样值未超出水线|
 
 ### 查询ADC缓存是否为空 ###
 查询ADC缓存是否为空，函数原型如下所示：  
 ```C
+
 bool is_adc_fifo_empty(ADDA_TypeDef *ADDA)
-{
-	CHECK_PARAM(PARAM_ADDC(ADDA));
-    if (((ADDA->ADC_FIFO_CTRL >> 19) & 0x1) == 1)
-    {
-        return true;
-	}
-    else
-	{
-        return false;
-	}
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|true|ADC缓存为空|
+|false|ADC缓存非空|
 
 ### 清空ADC缓存 ###
 清空ADC缓存，函数原型如下所示：  
 ```C
+
 void adc_fifo_clear(ADDA_TypeDef *ADDA)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    ADDA->ADC_FIFO_CTRL |= 1 << 31;
-	ADDA->ADC_FIFO_CTRL &= ~BIT(31);//must clear the bit manually
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|**返回值**|描述|
+|无|-|
 
 ### 使能电源ADC采样 ###
 使能电源ADC采样，函数原型如下所示：  
 ```C
+
 void adc_vbat_measure_enable(bool enable)
-{
-    REG(0x1A104228) = (REG(0x1A104228) & (~BIT(4))) | (enable << 4);
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|enable|电源电压采样使能|
+|**返回值**|描述|
+|无|-|
 
 ### 设置温度传感器采样目标 ###
 设置温度传感器采样目标，函数原型如下所示：  
 ```C
+
 void adc_temp_source_sel(ADDA_TypeDef *ADDA, ADC_TEMP_SRC temp_src)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-    ADDA->ADC_CTRL0 &= ~(0x07<<24);
-    ADDA->ADC_CTRL0 |= temp_src;
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|temp_src|温度采样目标值|
+|**返回值**|描述|
+|无|-|
 
 ### 使能温度传感器采样 ###
 设置温度传感器采样目标，函数原型如下所示：  
 ```C
+
 void adc_temp_sensor_enable(ADDA_TypeDef *ADDA, bool enable)
-{
-    CHECK_PARAM(PARAM_ADDC(ADDA));
-	ADDA->ADC_CTRL0 &= ~BIT(6);//disable imax mode
-	ADDA->ADC_CTRL0 |= BIT(27)|BIT(21)|BIT(19);//enable vcm for temp measure, ADC_TEMP power and ADC_TEMP current limit
-    ADDA->ADC_CTRL0 = (ADDA->ADC_CTRL0 & (~BIT(23))) | (enable << 23);//enable ADC_TEMP sensor
-	ADDA->ADC_CTRL0 &= ~0x07;//set ADC_TEMP internal trim
-	ADDA->ADC_CTRL1 =  (ADDA->ADC_CTRL1 & (~(0x03<<21))) | (0x03 << 21);//set ADC_TEMP PGA gain
-}
+
 ```
+|**参数**|**描述**|
+|:---:|:---:|
+|ADDA|操作句柄|
+|enable|温度传感器采样使能|
+|**返回值**|描述|
+|无|-|
 
 ## ADC使用示例 ##
 以下提供采样电源电压、温度传感器等实例

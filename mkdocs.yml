@@ -24,15 +24,22 @@ nav:
           - 'UC8288中断控制': mcu/uc8288/uc8288_event.md
         - 'UC8888': mcu/mcu_uc8888.md
         - '外设':
-          - '外设控制器': mcu/imperio/peripheralcontrol/peripheral.md
-          - 'GPIO': mcu/imperio/gpio/gpio.md
-          - 'ADC': mcu/imperio/adc/adc.md
-          - 'DAC': mcu/imperio/dac/dac.md
-          - 'PWM': mcu/imperio/pwm/pwm.md
-          - 'I2C': mcu/imperio/i2c/iic.md
-          - 'SPI MASTER': mcu/imperio/spimaster/spimaster.md
-          - 'TIMER': mcu/imperio/timer/timer.md
-          - 'WATCHDOG': mcu/imperio/watchdog/watchdog.md
+          - 'PWM': MCU/imperio/pwm/pwm.md
+          - 'WATCHDOG': MCU/imperio/watchdog/watchdog.md
+          - 'I2C': MCU/imperio/i2c/i2c.md
+          - 'GPIO': MCU/imperio/gpio/gpio.md
+          - 'ADC': MCU/imperio/adc/adc.md
+          - 'DAC': MCU/imperio/dac/dac.md
+          - 'PMU': MCU/imperio/pmu/lowpower.md
+          - 'TRNG': MCU/imperio/trng/trng.md
+          - 'EVTC': MCU/imperio/evtc/evtc.md
+          - 'FLASG': MCU/imperio/flash/flash.md
+          - 'SPIM': MCU/imperio/spimaster/spimaster.md
+          - 'RTC': MCU/imperio/rtc/rtc.md
+          - '外设控制器': MCU/imperio/peripheralcontrol/peripheral.md
+          - 'TIMER': MCU/imperio/timer/timer.md
+          - 'UART': MCU/imperio/uart/uart.md
+          - 'UDMA': MCU/imperio/udma/udma.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
