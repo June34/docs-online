@@ -22,27 +22,34 @@ nav:
           - 'UC8288时钟树': mcu/uc8288/uc8288_clk.md
           - 'UC8288电源控制': mcu/uc8288/uc8288_pwr.md
           - 'UC8288中断控制': mcu/uc8288/uc8288_event.md
-        - 'UC8888': mcu/mcu_uc8888.md
+        - 'UC8888': mcu/uc8888/mcu_uc8888.md
         - '外设':
-          - 'PWM': MCU/imperio/pwm/pwm.md
-          - 'WATCHDOG': MCU/imperio/watchdog/watchdog.md
-          - 'I2C': MCU/imperio/i2c/i2c.md
-          - 'GPIO': MCU/imperio/gpio/gpio.md
-          - 'ADC': MCU/imperio/adc/adc.md
-          - 'DAC': MCU/imperio/dac/dac.md
-          - 'PMU': MCU/imperio/pmu/lowpower.md
-          - 'TRNG': MCU/imperio/trng/trng.md
-          - 'EVTC': MCU/imperio/evtc/evtc.md
-          - 'FLASG': MCU/imperio/flash/flash.md
-          - 'SPIM': MCU/imperio/spimaster/spimaster.md
-          - 'RTC': MCU/imperio/rtc/rtc.md
-          - '外设控制器': MCU/imperio/peripheralcontrol/peripheral.md
-          - 'TIMER': MCU/imperio/timer/timer.md
-          - 'UART': MCU/imperio/uart/uart.md
-          - 'UDMA': MCU/imperio/udma/udma.md
+          - 'PWM': mcu/imperio/pwm/pwm.md
+          - 'WATCHDOG': mcu/imperio/watchdog/watchdog.md
+          - 'I2C': mcu/imperio/i2c/i2c.md
+          - 'GPIO': mcu/imperio/gpio/gpio.md
+          - 'ADC': mcu/imperio/adc/adc.md
+          - 'DAC': mcu/imperio/dac/dac.md
+          - 'PMU': mcu/imperio/pmu/lowpower.md
+          - 'TRNG': mcu/imperio/trng/trng.md
+          - 'EVTC': mcu/imperio/evtc/evtc.md
+          - 'FLASH': mcu/imperio/flash/flash.md
+          - 'SPIM': mcu/imperio/spimaster/spimaster.md
+          - 'RTC': mcu/imperio/rtc/rtc.md
+          - '外设控制器': mcu/imperio/peripheralcontrol/peripheral.md
+          - 'TIMER': mcu/imperio/timer/timer.md
+          - 'UART': mcu/imperio/uart/uart.md
+          - 'UDMA': mcu/imperio/udma/udma.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
-        - 'UC8088': 3gpp/3gpp_uc8088.md
+        - 'UC8088':
+          - 'GPRS介绍': 3gpp/uc8088/introduction_gprs.md
+          - 'AT基础命令': 3gpp/uc8088/command.md
+          - 'TCP/UDP': 3gpp/uc8088/tcp_udp.md
+          - 'HTTP': 3gpp/uc8088/http.md
+          - 'MQTT': 3gpp/uc8088/mqtt.md
+          - 'FTP': 3gpp/uc8088/ftp.md
+          - 'LINK': 3gpp/uc8088/link.md
         - 'UC8066': 3gpp/3gpp_uc8066.md
         - 'UCM800': 3gpp/3gpp_ucm800.md
         - 'UCM868': 3gpp/3gpp_ucm868.md
@@ -61,8 +68,8 @@ nav:
         - 'UC8689': rfid/rfid_uc8689.md
         - 'UCM868': rfid/rfid_ucm868.md
     - Connectivety:
-        - '概览':   Connectivety/introduction_connectivety.md
-        - 'UC8266': Connectivety/connectivety_uc8266.md
+        - '概览':   connectivety/introduction_connectivety.md
+        - 'UC8266': connectivety/connectivety_uc8266.md
     - About: 'about.md'
 theme:
   name: material
