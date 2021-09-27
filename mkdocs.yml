@@ -1,23 +1,38 @@
 site_name: UCchip Docs
 site_url: https://example.com/
-pages:
+nav:
     - 关于御芯微: 'index.md'
     - UCCHIP集成开发环境:
         - 'UCCHIP IDE 安装': ucchip_env/UCCHIP_IDE_install.md
         - '编译下载': ucchip_env/build_and_down.md
         - '调试': ucchip_env/debug.md
     - MCU:
-        - '概览':   MCU/introduction_mcu.md
-        - 'UC8088': MCU/mcu_uc8088.md
-        - 'UC8288': MCU/mcu_uc8288.md
-        - 'UC8888': MCU/mcu_uc8888.md
+        - '概览':   mcu/introduction_mcu.md
+        - 'UC8088': 
+          - 'UC8088系列介绍': mcu/uc8088/introduction_uc8088.md
+          - 'UC8088总线结构': mcu/uc8088/uc8088_bus.md
+          - 'UC8088存储': mcu/uc8088/uc8088_memmap.md
+          - 'UC8088时钟树': mcu/uc8088/uc8088_clk.md
+          - 'UC8088电源控制': mcu/uc8088/uc8088_pwr.md
+          - 'UC8088中断控制': mcu/uc8088/uc8088_event.md
+        - 'UC8288': 
+          - 'UC8288系列介绍': mcu/uc8288/introduction_uc8288.md
+          - 'UC8288总线结构': mcu/uc8288/uc8288_bus.md
+          - 'UC8288存储': mcu/uc8288/uc8288_memmap.md
+          - 'UC8288时钟树': mcu/uc8288/uc8288_clk.md
+          - 'UC8288电源控制': mcu/uc8288/uc8288_pwr.md
+          - 'UC8288中断控制': mcu/uc8288/uc8288_event.md
+        - 'UC8888': mcu/mcu_uc8888.md
         - '外设':
-          - 'pwm': MCU/imperio/pwm/pwm.md
-          - 'watchdog': MCU/imperio/watchdog/watchdog.md
-          - 'i2c': MCU/imperio/i2c/IIC.md
-          - 'gpio': MCU/imperio/gpio/GPIO.md
-          - 'adc': MCU/imperio/ADC/ADC.md
-          - 'dac': MCU/imperio/DAC/DAC.md
+          - '外设控制器': mcu/imperio/peripheralcontrol/peripheral.md
+          - 'GPIO': mcu/imperio/gpio/gpio.md
+          - 'ADC': mcu/imperio/adc/adc.md
+          - 'DAC': mcu/imperio/dac/dac.md
+          - 'PWM': mcu/imperio/pwm/pwm.md
+          - 'I2C': mcu/imperio/i2c/iic.md
+          - 'SPI MASTER': mcu/imperio/spimaster/spimaster.md
+          - 'TIMER': mcu/imperio/timer/timer.md
+          - 'WATCHDOG': mcu/imperio/watchdog/watchdog.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 3gpp/3gpp_uc8088.md
