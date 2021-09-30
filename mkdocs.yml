@@ -50,6 +50,10 @@ nav:
           - 'MQTT': 3gpp/uc8088/mqtt.md
           - 'FTP': 3gpp/uc8088/ftp.md
           - 'LINK': 3gpp/uc8088/link.md
+          - 'gprs_customer代码结构导读': 3gpp/gprs_customer_code_guide.md
+          - 'gprs二次开发eat接口函数': 3gpp/gprs_eat_function.md
+          - 'gprs/gps模式切换说明': 3gpp/gprs_gps_mode_switch.md
+          - 'uc8088模组静态数据信息': 3gpp/uc8088_static_data.md
         - 'UC8066': 3gpp/3gpp_uc8066.md
         - 'UCM800': 3gpp/3gpp_ucm800.md
         - 'UCM868': 3gpp/3gpp_ucm868.md
