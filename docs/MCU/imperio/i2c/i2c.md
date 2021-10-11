@@ -254,4 +254,4 @@ int main(int argc, char **argv)
 }
 ```
 
-注：STA,STO,RD,WR,和IACK自动清理0,SCL与SDA必须上拉。
+**注：STA,STO,RD,WR,和IACK自动清理0,SCL与SDA必须上拉。**

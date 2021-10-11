@@ -42,13 +42,14 @@ nav:
           - 'UDMA': mcu/imperio/udma/udma.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
-        - 'UC8088':
+        - 'UC8088': 
           - 'GPRS介绍': 3gpp/uc8088/introduction_gprs.md
-          - 'AT基础命令': 3gpp/uc8088/command.md
-          - 'TCP/UDP': 3gpp/uc8088/tcp_udp.md
-          - 'HTTP': 3gpp/uc8088/http.md
-          - 'MQTT': 3gpp/uc8088/mqtt.md
-          - 'FTP': 3gpp/uc8088/ftp.md
+          - 'AT基础命令': 3gpp/uc8088/at_basic.md
+          - 'GPRS命令' : 3gpp/uc8088/at_gprs.md  
+          - 'TCP/UDP': 3gpp/uc8088/at_tcp.md
+          - 'HTTP': 3gpp/uc8088/at_http.md
+          - 'MQTT': 3gpp/uc8088/at_mqtt.md
+          - 'FTP': 3gpp/uc8088/at_ftp.md
           - 'LINK': 3gpp/uc8088/link.md
           - 'gprs_customer代码结构导读': 3gpp/gprs_customer_code_guide.md
           - 'gprs二次开发eat接口函数': 3gpp/gprs_eat_function.md
