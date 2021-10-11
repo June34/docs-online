@@ -11,14 +11,14 @@ nav:
         - 'UC8088': 
           - 'UC8088系列介绍': mcu/uc8088/introduction_uc8088.md
           - 'UC8088总线结构': mcu/uc8088/uc8088_bus.md
-          - 'UC8088存储': mcu/uc8088/uc8088_memmap.md
+          - 'UC8088存储结构': mcu/uc8088/uc8088_memmap.md
           - 'UC8088时钟树': mcu/uc8088/uc8088_clk.md
           - 'UC8088电源控制': mcu/uc8088/uc8088_pwr.md
           - 'UC8088中断控制': mcu/uc8088/uc8088_event.md
         - 'UC8288': 
           - 'UC8288系列介绍': mcu/uc8288/introduction_uc8288.md
           - 'UC8288总线结构': mcu/uc8288/uc8288_bus.md
-          - 'UC8288存储': mcu/uc8288/uc8288_memmap.md
+          - 'UC8288存储结构': mcu/uc8288/uc8288_memmap.md
           - 'UC8288时钟树': mcu/uc8288/uc8288_clk.md
           - 'UC8288电源控制': mcu/uc8288/uc8288_pwr.md
           - 'UC8288中断控制': mcu/uc8288/uc8288_event.md
