@@ -1,6 +1,6 @@
 # 概述
 
-8088模组中 GPS/GPRS 之间的切换通过 SW 命令实现。
+8088模组支持GPS与GPRS两种模式，这里可根据需要通过写入静态数据实现模式的支持（详见[设备控制类静态信息](uc8088_static_data.md)）。当需要在 GPS/GPRS 之间切换时，则通过 SW 命令进行控制。
 
 # SW命令的使用
 
@@ -18,9 +18,8 @@
 
 **GPRS —> GPS**
 
-<img src=".\png\GPRS-GPS.png" style="zoom:80%;" />  
+![](png/gprs_gps.png) 
 
 **GPS —> GPRS**
 
-<img src=".\png\GPS-GPRS.png" style="zoom:80%;" />  
-
+![](png/gps_gprs.png) 

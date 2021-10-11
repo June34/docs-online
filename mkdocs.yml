@@ -1,36 +1,60 @@
 site_name: UCchip Docs
 site_url: https://example.com/
-pages:
+nav:
     - 关于御芯微: 'index.md'
     - UCCHIP集成开发环境:
         - 'UCCHIP IDE 安装': ucchip_env/UCCHIP_IDE_install.md
         - '编译下载': ucchip_env/build_and_down.md
         - '调试': ucchip_env/debug.md
     - MCU:
-        - '概览':   MCU/introduction_mcu.md
-        - 'UC8088': MCU/mcu_uc8088.md
-        - 'UC8288': MCU/mcu_uc8288.md
-        - 'UC8888': MCU/mcu_uc8888.md
+        - '概览':   mcu/introduction_mcu.md
+        - 'UC8088': 
+          - 'UC8088系列介绍': mcu/uc8088/introduction_uc8088.md
+          - 'UC8088总线结构': mcu/uc8088/uc8088_bus.md
+          - 'UC8088存储': mcu/uc8088/uc8088_memmap.md
+          - 'UC8088时钟树': mcu/uc8088/uc8088_clk.md
+          - 'UC8088电源控制': mcu/uc8088/uc8088_pwr.md
+          - 'UC8088中断控制': mcu/uc8088/uc8088_event.md
+        - 'UC8288': 
+          - 'UC8288系列介绍': mcu/uc8288/introduction_uc8288.md
+          - 'UC8288总线结构': mcu/uc8288/uc8288_bus.md
+          - 'UC8288存储': mcu/uc8288/uc8288_memmap.md
+          - 'UC8288时钟树': mcu/uc8288/uc8288_clk.md
+          - 'UC8288电源控制': mcu/uc8288/uc8288_pwr.md
+          - 'UC8288中断控制': mcu/uc8288/uc8288_event.md
+        - 'UC8888': mcu/uc8888/mcu_uc8888.md
         - '外设':
-          - 'pwm': MCU/imperio/pwm/pwm.md
-          - 'watchdog': MCU/imperio/watchdog/watchdog.md
-          - 'i2c': MCU/imperio/i2c/IIC.md
-          - 'gpio': MCU/imperio/gpio/GPIO.md
-          - 'adc': MCU/imperio/ADC/ADC.md
-          - 'dac': MCU/imperio/DAC/DAC.md
-          - 'pmu': MCU/imperio/PMU/lowpower.md
-          - 'trng': MCU/imperio/TRNG/TRNG.md
-          - 'evtc': MCU/imperio/evtc/EVTC.md
-          - 'flash': MCU/imperio/flash/flash.md
-          - 'spimaster': MCU/imperio/spimaster/spimaster.md
-          - 'RTC': MCU/imperio/RTC/RTC.md
-          - 'peripheralcontrol': MCU/imperio/peripheralcontrol/peripheral.md
-          - 'timer': MCU/imperio/timer/timer.md
-          - 'uart': MCU/imperio/uart/uart.md
-          - 'udma': MCU/imperio/udma/udma.md
+          - 'PWM': mcu/imperio/pwm/pwm.md
+          - 'WATCHDOG': mcu/imperio/watchdog/watchdog.md
+          - 'I2C': mcu/imperio/i2c/i2c.md
+          - 'GPIO': mcu/imperio/gpio/gpio.md
+          - 'ADC': mcu/imperio/adc/adc.md
+          - 'DAC': mcu/imperio/dac/dac.md
+          - 'PMU': mcu/imperio/pmu/lowpower.md
+          - 'TRNG': mcu/imperio/trng/trng.md
+          - 'EVTC': mcu/imperio/evtc/evtc.md
+          - 'FLASH': mcu/imperio/flash/flash.md
+          - 'SPIM': mcu/imperio/spimaster/spimaster.md
+          - 'RTC': mcu/imperio/rtc/rtc.md
+          - '外设控制器': mcu/imperio/peripheralcontrol/peripheral.md
+          - 'TIMER': mcu/imperio/timer/timer.md
+          - 'UART': mcu/imperio/uart/uart.md
+          - 'UDMA': mcu/imperio/udma/udma.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
-        - 'UC8088': 3gpp/3gpp_uc8088.md
+        - 'UC8088':
+          - 'GPRS介绍': 3gpp/uc8088/introduction_gprs.md
+          - 'AT基础命令': 3gpp/uc8088/at_basic.md
+          - 'GPRS命令' :3gpp/uc8088/at_gprs  
+          - 'TCP/UDP': 3gpp/uc8088/at_tcp.md
+          - 'HTTP': 3gpp/uc8088/at_http.md
+          - 'MQTT': 3gpp/uc8088/at_mqtt.md
+          - 'FTP': 3gpp/uc8088/at_ftp.md
+          - 'LINK': 3gpp/uc8088/link.md
+          - 'gprs_customer代码结构导读': 3gpp/gprs_customer_code_guide.md
+          - 'gprs二次开发eat接口函数': 3gpp/gprs_eat_function.md
+          - 'gprs/gps模式切换说明': 3gpp/gprs_gps_mode_switch.md
+          - 'uc8088模组静态数据信息': 3gpp/uc8088_static_data.md
         - 'UC8066': 3gpp/3gpp_uc8066.md
         - 'UCM800': 3gpp/3gpp_ucm800.md
         - 'UCM868': 3gpp/3gpp_ucm868.md
@@ -49,8 +73,8 @@ pages:
         - 'UC8689': rfid/rfid_uc8689.md
         - 'UCM868': rfid/rfid_ucm868.md
     - Connectivety:
-        - '概览':   Connectivety/introduction_connectivety.md
-        - 'UC8266': Connectivety/connectivety_uc8266.md
+        - '概览':   connectivety/introduction_connectivety.md
+        - 'UC8266': connectivety/connectivety_uc8266.md
     - About: 'about.md'
 theme:
   name: material
