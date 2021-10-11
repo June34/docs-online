@@ -40,6 +40,7 @@ nav:
           - 'TIMER': mcu/imperio/timer/timer.md
           - 'UART': mcu/imperio/uart/uart.md
           - 'UDMA': mcu/imperio/udma/udma.md
+          - 'CAN' : mcu/imperio/can/can.md
     - 蜂窝:
         - '概览':   3gpp/introduction_3gpp.md
         - 'UC8088': 
