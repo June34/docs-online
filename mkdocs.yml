@@ -79,3 +79,22 @@ nav:
     - About: 'about.md'
 theme:
   name: material
+
+copyright: Copyright &copy; 2017 - 2021 UCchip
+
+plugins:
+    - with-pdf:
+        author: UCchip
+        #copyright: 重庆御芯微信息技术有限公司
+        cover: true
+        back_cover: true
+        #cover_loge:v0.0.1
+        cover_title: 御芯微系列产品手册
+        cover_subtitle: 御智与芯 蕴德于微
+        #custom_template_path: TEMPLATES PATH
+        toc_title: 目录
+        #heading_shift: false
+        #toc_level: 3
+        #ordered_chapter_level: 2
+        output_path: pdf/UcchipDocs.pdf
+        #debug_html: true
