@@ -12,10 +12,6 @@ nav:
           - 'UC8088总线结构': mcu/uc8088/uc8088_bus.md
           - 'UC8088存储结构': mcu/uc8088/uc8088_memmap.md
           - 'UC8088时钟树': mcu/uc8088/uc8088_clk.md
-          - 'UC8088电源控制': mcu/uc8088/uc8088_pwr.md
-          - 'UC8088中断控制': mcu/uc8088/uc8088_event.md
-        - 'UC8288': mcu/uc8288/introduction_uc8288.md
-        - 'UC8888': mcu/uc8888/mcu_uc8888.md
         - '外设':
           - 'PWM': mcu/imperio/pwm/pwm.md
           - 'WATCHDOG': mcu/imperio/watchdog/watchdog.md
@@ -32,38 +28,42 @@ nav:
           - '外设控制器': mcu/imperio/peripheralcontrol/peripheral.md
           - 'TIMER': mcu/imperio/timer/timer.md
           - 'UART': mcu/imperio/uart/uart.md
-          - 'UDMA': mcu/imperio/udma/udma.md
-          - 'CAN' : mcu/imperio/can/can.md
     - 蜂窝:
         - 'UC8088': 
-          - 'GPRS介绍': 3gpp/uc8088/introduction_gprs.md
+          - 'GPRS AT介绍': 3gpp/uc8088/introduction_gprs.md
           - 'AT基础命令': 3gpp/uc8088/at_basic.md
           - 'GPRS命令' : 3gpp/uc8088/at_gprs.md  
           - 'TCP/UDP': 3gpp/uc8088/at_tcp.md
           - 'HTTP': 3gpp/uc8088/at_http.md
           - 'MQTT': 3gpp/uc8088/at_mqtt.md
           - 'FTP': 3gpp/uc8088/at_ftp.md
-          - 'LINK': 3gpp/uc8088/link.md
-          - 'gprs_customer代码结构导读': 3gpp/uc8088/gprs_customer_code_guide.md
-          - 'gprs二次开发eat接口函数': 3gpp/uc8088/gprs_eat_function.md
-          - 'gprs/gps模式切换说明': 3gpp/uc8088/gprs_gps_mode_switch.md
-          - 'uc8088模组静态数据信息': 3gpp/uc8088/uc8088_static_data.md
-        - 'UC8066': 3gpp/3gpp_uc8066.md
+          - 'GPRS开发': 3gpp/uc8088/gprs_customer_code_guide.md
+          - 'GPRS EAT API': 3gpp/uc8088/gprs_eat_function.md
+          - 'GPRS/GPS切换': 3gpp/uc8088/gprs_gps_mode_switch.md
         - 'UCM800': 3gpp/3gpp_ucm800.md
         - 'UCM868': 3gpp/3gpp_ucm868.md
-    - LPWAN:
-        - 'UC8288': wiota/wiota_uc8288.md
-        - 'UC8666': wiota/wiota_uc8666.md
+        - 'UCM802': 3gpp/3gpp_ucm802.md
     - GNSS:
-        - 'UC8088': gnss/gnss_uc8088.md
-        - 'UC8888': gnss/gnss_uc8888.md
-        - 'UCM800': gnss/gnss_ucm800.md
+        - 'UC8088':
+          - 'GNSS通信协议': gnss/uc8088/gnss_output.md
+          - '系统ID/信号ID': gnss/uc8088/gnss_output_id.md
+          - 'RMC信息': gnss/uc8088/gnss_output_rmc.md
+          - 'VTG信息': gnss/uc8088/gnss_output_vtg.md
+          - 'GGA信息': gnss/uc8088/gnss_output_gga.md
+          - 'GSV信息': gnss/uc8088/gnss_output_gsv.md
+          - 'GSA信息': gnss/uc8088/gnss_output_gsa.md
+          - 'GNSS AT介绍': gnss/uc8088/gnss_at.md
+          - '控制命令': gnss/uc8088/gnss_ctr_at.md
+          - '配置命令': gnss/uc8088/gnss_set_at.md
+          - '查询命令': gnss/uc8088/gnss_read_at.md
+          - '使能命令': gnss/uc8088/gnss_enable_at.md
+          - '屏蔽命令': gnss/uc8088/gnss_shield_at.md
         - 'UCM868': gnss/gnss_ucm868.md
+        - 'UCM802': gnss/gnss_ucm802.md
     - RFID:
         - 'UC8689': rfid/rfid_uc8689.md
         - 'UCM868': rfid/rfid_ucm868.md
-    - Connectivety:
-        - 'UC8266': connectivety/connectivety_uc8266.md
     - About: 'about.md'
 theme:
   name: material
+
